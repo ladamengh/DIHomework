@@ -8,7 +8,6 @@ import com.otus.dihomework.common.domain_api.ToggleFavoriteUseCase
 import com.otus.dihomework.common.domain_impl.FavoritesRepository
 import com.otus.dihomework.common.domain_impl.ProductRepository
 import com.otus.dihomework.common.util.PriceFormatter
-import com.otus.dihomework.features.favorites.FavoritesComponent
 import com.otus.dihomework.features.products.ProductsDependencies
 import dagger.BindsInstance
 import dagger.Component
@@ -21,11 +20,10 @@ import javax.inject.Singleton
     modules = [
         NetworkModule::class,
         DataModule::class,
-        DomainModule::class,
-        SubcomponentsModule::class
+        DomainModule::class
     ]
 )
-interface AppComponent : ProductsDependencies {
+interface AppComponent : ProductsDependencies, AppDependencies {
 
     fun context(): Context
     fun okHttpClient(): OkHttpClient
@@ -34,11 +32,9 @@ interface AppComponent : ProductsDependencies {
     fun productRepository(): ProductRepository
     fun favoritesRepository(): FavoritesRepository
     override fun consumeProductsUseCase(): ConsumeProductsUseCase
-    fun consumeFavoritesUseCase(): ConsumeFavoritesUseCase
+    override fun consumeFavoritesUseCase(): ConsumeFavoritesUseCase
     override fun toggleFavoriteUseCase(): ToggleFavoriteUseCase
     override fun priceFormatter(): PriceFormatter
-
-    fun favoritesComponent(): FavoritesComponent.Factory
 
     @Component.Factory
     interface Factory {
